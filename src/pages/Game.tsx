@@ -6,10 +6,11 @@ import { CssSprite } from '../components/Sprite'
 export default function Game() {
   const [text, setText] = useState("")
   const [userInput, setUserInput] = useState("")
-  const [timer, setTimer] = useState(5)
+  const [timer, setTimer] = useState(90)
   const [start, setStart] = useState(false)
   const [heroHealth, setHeroHealth] = useState(100)
   const [monsterHealth, setMonsterHealth] = useState(100)
+  const [gameOver, setGameOver] = useState(false)
 
 
   const heroSpriteList = [
@@ -31,15 +32,12 @@ export default function Game() {
 
   const maxHealth = 100
 
-  
-
   const inputRef = useRef<HTMLInputElement | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
 
   useEffect(() => {
     setText(wordList[getRandomNumber()])
-
     inputRef.current?.focus()
   }, [])
 
@@ -52,6 +50,15 @@ export default function Game() {
 
     if (value.length > text.length || heroHealth == 0) {
       setStart(false)
+      if (monsterHealth < heroHealth) {
+        setMonsterSprite(monsterSpriteList[3])
+        sethHeroSprite(heroSpriteList[0])
+        setGameOver(true)
+      } if (heroHealth < monsterHealth) {
+        sethHeroSprite(heroSpriteList[3])
+        setMonsterSprite(monsterSpriteList[0])
+        setGameOver(true)
+      }
       return
     }
 
@@ -78,13 +85,14 @@ export default function Game() {
         if (prev <= 1) {
           clearInterval(interval);
           setStart(false);
-          if(monsterHealth < heroHealth){
+          if (monsterHealth < heroHealth) {
             setMonsterSprite(monsterSpriteList[3])
             sethHeroSprite(heroSpriteList[0])
-          } if(heroHealth < monsterHealth){
+          } if (heroHealth < monsterHealth) {
             sethHeroSprite(heroSpriteList[3])
             setMonsterSprite(monsterSpriteList[0])
           }
+          setGameOver(true)
           return 0;
         }
         return prev - 1;
@@ -102,57 +110,49 @@ export default function Game() {
         return "text-green-600"
       }
       else {
-        // setHeroHealth((prev) => prev - 10)
         return "text-red-600"
       }
     }
   }
 
-  // const correctCount = [...text].filter((c, i) => c === userInput[i]).length;
-  // const accuracy = text.length ? Math.round((correctCount / text.length) * 100) : 100;
-
   return (
-    <div className='min-h-screen md:mx-16 mx-4 py-8'>
+    <div className='min-h-screen md:px-16 px-4 py-8 relative'>
       {/* Helath bar */}
-      <div className="flex justify-between md:gap-4 gap-2 items-center w-full">
-        {/* HERO BAR */}
-        <div>
-          {/* outer track with fixed pixel width */}
-          <div className="w-[150px] md:w-[200px] h-4 bg-gray-300 border border-black rounded overflow-hidden">
-            {/* inner fill width is percentage of max */}
-            <div
-              className="h-full bg-green-600 transition-all duration-300"
-              style={{ width: `${(heroHealth / maxHealth) * 100}%` }}
-            />
+      <div className="flex justify-between gap-3 items-center w-full mb-6">
+          {/* HERO BAR */}
+          <div className="flex-1">
+            <div className="text-[10px] font-semibold text-slate-700 mb-1.5 uppercase tracking-wider">Hero</div>
+            <div className="h-2.5 bg-slate-200 rounded-full overflow-hidden shadow-inner">
+              <div
+                className="h-full bg-emerald-500 transition-all duration-300 rounded-full"
+                style={{ width: `${(heroHealth / maxHealth) * 100}%` }}
+              />
+            </div>
+            <p className="text-[10px] mt-1 text-slate-600 font-medium">{heroHealth}/{maxHealth}</p>
           </div>
-          <p className="text-xs mt-1">HP: {heroHealth}/{maxHealth}</p>
-        </div>
 
-        {/* TIMER */}
-        <div>
-          <div className="border border-black rounded-md flex items-center justify-center px-4 py-2">
-            <span>{timer}</span>
+          {/* TIMER */}
+          <div className="px-4 py-1.5 bg-white rounded-lg shadow-sm border border-slate-200">
+            <span className="text-xl font-semibold text-slate-800 tabular-nums">{timer}</span>
           </div>
-        </div>
 
-        {/* MONSTER BAR (example of full bar) */}
-        <div>
-          {/* outer track with fixed pixel width */}
-          <div className="w-[150px] md:w-[200px] h-4 bg-gray-300 border border-black rounded overflow-hidden">
-            {/* inner fill width is percentage of max */}
-            <div
-              className="h-full bg-red-600 transition-all duration-300"
-              style={{ width: `${(monsterHealth / maxHealth) * 100}%` }}
-            />
+          {/* MONSTER BAR */}
+          <div className="flex-1">
+            <div className="text-[10px] font-semibold text-slate-700 mb-1.5 uppercase tracking-wider text-right">Monster</div>
+            <div className="h-2.5 bg-slate-200 rounded-full overflow-hidden shadow-inner">
+              <div
+                className="h-full bg-rose-500 transition-all duration-300 rounded-full"
+                style={{ width: `${(monsterHealth / maxHealth) * 100}%` }}
+              />
+            </div>
+            <p className="text-[10px] mt-1 text-slate-600 font-medium text-right">{monsterHealth}/{maxHealth}</p>
           </div>
-          <p className="text-xs mt-1">HP: {monsterHealth}/{maxHealth}</p>
         </div>
-      </div>
 
       {/* Hero and monster */}
       <div className='flex gap-8 justify-center items-center my-24'>
-        <CssSprite imgSrc={heroSprite} scale={4} frameCount={8} frameHeight={64} frameWidth={64} fps={6} position={192}/>
-        <CssSprite imgSrc={monsterSprite} scale={2.5} frameCount={8} frameHeight={64} frameWidth={64} fps={6} position={0}/>
+        <CssSprite imgSrc={heroSprite} scale={4} frameCount={8} frameHeight={64} frameWidth={64} fps={6} position={192} />
+        <CssSprite imgSrc={monsterSprite} scale={2.5} frameCount={8} frameHeight={64} frameWidth={64} fps={6} position={0} />
       </div>
 
       {/* Text */}
@@ -171,15 +171,14 @@ export default function Game() {
       </div>
 
       {/* Game over */}
-      {/* {!start && (
-        <div className='h-[300px] w-full border border-black rounded-md mt-4 flex justify-center items-center'>
-          <div>
-            <p>Typed: {text.length}/{userInput.length}</p>
-            <p>Accuracy: {accuracy}%</p>
-            <p>Correct chars: {correctCount}</p>
+      {gameOver && (
+        <div className='absolute min-h-screen min-w-screen flex justify-center items-center top-0 right-0 z-50 bg-black/50'>
+          <div className="flex flex-col gap-4 items-center">
+            <h1 className='text-2xl font-bold'>Game Over</h1>
+            <button className='px-4 py-2 text-white bg-gray-900 rounded-md' onClick={() => window.location.reload()}>Restart</button>
           </div>
         </div>
-      )} */}
+      )}
       <audio src="/sword_sound.mp3" ref={audioRef} className='hidden'></audio>
     </div>
   )
