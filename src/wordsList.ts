@@ -1,0 +1,22 @@
+export const wordList = [
+  "The gentle breeze drifted across the valley carrying the scent of wildflowers and dreams whispering softly through fields of endless golden sunlight",
+  "Under the shimmering sky the wanderer walked alone tracing forgotten stories written by time upon stones and rivers that never ceased to flow",
+  "Bright morning light painted the mountains in hues of amber and rose awakening the forest creatures to dance in the warmth of a new day",
+  "Beneath the ancient tree memories slept like shadows dreaming of laughter lost to time and the soft sound of rain falling on open hands",
+  "Through silent streets the moonlight wandered weaving silver paths upon rooftops where old wishes still lingered in the cool evening air",
+  "Every heartbeat became a melody calling across distance reminding souls that love once found never truly fades even in endless darkness",
+  "The ocean whispered to the shore with patience shaping every grain of sand into a story of motion memory and eternal gentle rhythm",
+  "Among the stars travelers dreamed of home a place beyond distance and sorrow where hearts could rest beneath skies that never darkened",
+  "The forest held its breath as dawn approached painting life upon every leaf and branch like an artist breathing color into creation",
+  "In the quiet library of dreams each book contained a world unseen by waking eyes guarded by whispers of forgotten poets and wanderers",
+  "Raindrops traced soft music upon the glass singing stories of clouds and sky while candles flickered gently to the rhythm of their fall",
+  "Through the mirror of time reflections of lost hopes shimmered faintly calling out to those who dared to look beyond the veil of fear",
+  "Under endless stars the river flowed carrying fragments of broken wishes toward the sea where all stories meet and begin again anew",
+  "The child looked up at the night sky counting constellations like promises believing that every star held a secret meant only for them",
+  "Amid the calm of twilight two souls met in silence their hearts speaking softly in a language older than words written across the wind",
+  "The mountains whispered tales to the sky while snowflakes drifted like gentle feathers wrapping the world in peace and quiet wonder",
+  "Each sunset carried the promise of renewal coloring the sky with hope while shadows faded like memories at the edge of tomorrow",
+  "The melody of the ocean danced with the wind weaving songs of freedom that called to every heart longing to wander beyond horizons",
+  "Dreamers built bridges of light between stars believing that imagination alone could reshape the universe and awaken sleeping hearts",
+  "Beneath the soft glow of dawn hope rose like the first flower of spring breaking through the frost to remind the world to keep growing"
+]
